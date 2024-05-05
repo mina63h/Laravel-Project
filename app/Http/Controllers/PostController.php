@@ -21,7 +21,7 @@ class PostController extends Controller
     {
 
         $posts = Post::orderBy('id', 'DESC')->get();
-      return view('post.index', compact('posts'));
+        return view('post.index', compact('posts'));
     }
 
     /**
@@ -44,16 +44,16 @@ class PostController extends Controller
     public function store(StorePost $request)
     {
 
-        $imageName = time().'.'.$request->image->extension();
+        $imageName = time() . '.' . $request->image->extension();
         $request->image->move(public_path('images'), $imageName);
         // $pdf = Storage::putFileAs('pdf', $request->file('pdf'), time().'.'.$request->file('pdf')->getClientOriginalName());
-       $post = Post::create([
-             'title' => $request->title,
-             'user_id' => $request->user_id,
-             'image' => 'images/'.$imageName,
+        $post = Post::create([
+            'title' => $request->title,
+            'user_id' => $request->user_id,
+            'image' => 'images/' . $imageName,
             //  'pdf' => $pdf
-         ]);
-         ProcessPost::dispatch($post);
+        ]);
+        ProcessPost::dispatch($post);
         //  ProcessPost::dispatchNow($post);
 
         return redirect()->route('post.index')->with('success', 'record created successfully');
@@ -68,10 +68,9 @@ class PostController extends Controller
     public function show(Post $post)
     {
 
-        if($post->pdf != null)
-        return Storage::download($post->pdf);
+        if ($post->pdf != null)
+            return Storage::download($post->pdf);
         return view('post.show', compact('post'));
-
     }
 
     /**
@@ -80,10 +79,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        return view('post.edit');
-
+        return view('post.edit', compact('post'));
     }
 
     /**
@@ -95,7 +93,11 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        Post::where('id', $id)->update([
+            'title' => $request->title,
+            'user_id' => $request->user_id,
+        ]);
+        return redirect()->route('post.index')->with('success', 'record updated successfully');
     }
 
     /**
@@ -108,6 +110,5 @@ class PostController extends Controller
     {
         $post->delete();
         return redirect()->route('post.index')->with('success', 'record deleted successfully');
-
     }
 }

@@ -7,30 +7,32 @@
                 <h2>ویرایش پست</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="">بازگشت</a>
+                <a class="btn btn-primary" href="{{ route('post.index') }}">بازگشت</a>
             </div>
         </div>
     </div>
 
 
-    <form action="" method="POST">
-         <div class="row">
+    <form action="{{ route('post.update', $post->id) }}" method="POST" enctype="multipart/form-data" class="border p-5">
+        @csrf
+        @method('PUT')
+        <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>عنوان:</strong>
-                    <input type="text" name="" value="" class="form-control" placeholder="">
+                    <input type="text" name="title" value="{{ $post->title }}" class="form-control" placeholder="">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>نویسنده:</strong>
-                    <textarea class="form-control" style="height:150px" name="" placeholder=""></textarea>
+                    <input type="text" name="user_id" value="{{ $post->user_id }}" class="form-control" placeholder="">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-              <button type="submit" class="btn btn-primary">ثبت</button>
+                <button type="submit" class="btn btn-primary">ثبت</button>
             </div>
         </div>
 
     </form>
-    @endsection
+@endsection

@@ -1,6 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+
 
 
 /*
@@ -36,7 +38,7 @@ Route::resource('post', 'PostController');
 // Route::get('/refueling', 'CarController@calc');
 
 
-Route::get('/log', function() {
+Route::get('/log', function () {
     // Log::emergency('emergency');
     // Log::alert('alert');
     // Log::critical('critical');
