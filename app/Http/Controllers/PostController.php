@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Post;
-use App\Rules\Uppercase;
+use App\User;
 use App\Jobs\ProcessPost;
 use Illuminate\Http\Request;
 use App\Http\Requests\StorePost;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -19,7 +18,6 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-
         $posts = Post::orderBy('id', 'DESC')->get();
         return view('post.index', compact('posts'));
     }
